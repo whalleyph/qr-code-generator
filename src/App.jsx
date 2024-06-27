@@ -5,11 +5,13 @@ import QRCode from "qrcode";
 function App() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [allQRCodes, setAllQRCodes] = React.useState([]);
+  const [allSearchTerms, setAllSearchTerms] = React.useState([]);
 
   function handleChange(event) {
     setSearchTerm(event.target.value);
   }
   function generateQRCode() {
+    setAllSearchTerms([searchTerm, ...allSearchTerms]);
     QRCode.toDataURL(searchTerm, function (err, searchTerm) {
       setAllQRCodes([searchTerm, ...allQRCodes]);
     });
@@ -20,6 +22,18 @@ function App() {
       <img src={code}></img>
     </div>
   ));
+
+  function ReturnFiveNewestInfo() {
+    const firstFiveCodes = allQRCodes.slice(0, 5);
+    const firstFiveSearchTerms = allSearchTerms.slice(0, 5);
+
+    return firstFiveCodes.map((code, index) => (
+      <div className="qr-code" key={index}>
+        <h2>{firstFiveSearchTerms[index]}</h2>
+        <img src={code} alt={`QR Code for ${firstFiveSearchTerms[index]}`} />
+      </div>
+    ));
+  }
 
   return (
     <>
@@ -32,7 +46,7 @@ function App() {
       <br />
       <button onClick={generateQRCode}>Generate</button>
       <br />
-      {returnFiveNewestQRCodes}
+      <ReturnFiveNewestInfo />
     </>
   );
 }
