@@ -15,7 +15,7 @@ function App() {
     });
   }
 
-  const returnPreviousQRCodes = allQRCodes.slice(0, 5).map((code, index) => (
+  const returnFiveNewestQRCodes = allQRCodes.slice(0, 5).map((code, index) => (
     <div className="qr-code">
       <img src={code} key={index}></img>
     </div>
@@ -32,7 +32,7 @@ function App() {
       <br />
       <button onClick={generateQRCode}>Generate</button>
       <br />
-      {returnPreviousQRCodes}
+      {returnFiveNewestQRCodes}
     </>
   );
 }
