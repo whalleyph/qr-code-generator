@@ -5,26 +5,39 @@ import QRCode from "qrcode";
 function App() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [myDataURL, setMyDataURL] = React.useState("");
+  const [allQRCodes, setAllQRCodes] = React.useState([]);
 
   function handleChange(event) {
     setSearchTerm(event.target.value);
   }
   function generateQRCode() {
     QRCode.toDataURL(searchTerm, function (err, searchTerm) {
-      console.log(myDataURL);
       setMyDataURL(searchTerm);
-    })
+    });
+    setAllQRCodes([myDataURL, ...allQRCodes]);
   }
+
+  const returnPreviousQRCodes = allQRCodes.map((code) => (
+    <div className="qr-code">
+      <img src={code} key={code}></img>
+    </div>
+  ));
+
+  const lastFour = returnPreviousQRCodes.slice(0, 5);
 
   return (
     <>
       <h1>QR Code Generator</h1>
-      <input type="text" placeholder="Type something..." onChange={handleChange} />
+      <input
+        type="text"
+        placeholder="Type something..."
+        onChange={handleChange}
+      />
       <br />
       <button onClick={generateQRCode}>Generate</button>
-      <div className="qr-code">
-        <img src={myDataURL}></img>
-      </div>
+      <br />
+      <img src={myDataURL} key="Current Code"></img>
+      {lastFour}
     </>
   );
 }
