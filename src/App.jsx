@@ -16,8 +16,8 @@ function App() {
   }
 
   const returnFiveNewestQRCodes = allQRCodes.slice(0, 5).map((code, index) => (
-    <div className="qr-code">
-      <img src={code} key={index}></img>
+    <div className="qr-code" key={index}>
+      <img src={code}></img>
     </div>
   ));
 
