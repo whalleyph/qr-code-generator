@@ -4,7 +4,6 @@ import QRCode from "qrcode";
 
 function App() {
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [myDataURL, setMyDataURL] = React.useState("");
   const [allQRCodes, setAllQRCodes] = React.useState([]);
 
   function handleChange(event) {
@@ -12,18 +11,15 @@ function App() {
   }
   function generateQRCode() {
     QRCode.toDataURL(searchTerm, function (err, searchTerm) {
-      setMyDataURL(searchTerm);
+      setAllQRCodes([searchTerm, ...allQRCodes]);
     });
-    setAllQRCodes([myDataURL, ...allQRCodes]);
   }
 
-  const returnPreviousQRCodes = allQRCodes.map((code) => (
+  const returnPreviousQRCodes = allQRCodes.slice(0, 5).map((code, index) => (
     <div className="qr-code">
-      <img src={code} key={code}></img>
+      <img src={code} key={index}></img>
     </div>
   ));
-
-  const lastFour = returnPreviousQRCodes.slice(0, 4);
 
   return (
     <>
@@ -36,8 +32,7 @@ function App() {
       <br />
       <button onClick={generateQRCode}>Generate</button>
       <br />
-      <img src={myDataURL} key="Current Code"></img>
-      {lastFour}
+      {returnPreviousQRCodes}
     </>
   );
 }
