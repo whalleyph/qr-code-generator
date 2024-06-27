@@ -23,7 +23,7 @@ function App() {
     </div>
   ));
 
-  const lastFour = returnPreviousQRCodes.slice(0, 5);
+  const lastFour = returnPreviousQRCodes.slice(0, 4);
 
   return (
     <>
